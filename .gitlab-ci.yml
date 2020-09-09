@@ -1,0 +1,43 @@
+stages:
+- build
+- release
+- deploy
+
+build:
+  stage: build
+  image: node:10-alpine
+  script:
+  - npm install
+  artifacts:
+    paths:
+    - node_modules
+
+release:
+  stage: release
+  image: docker
+  services:
+  - docker:dind
+  variables:
+    DOCKER_HOST: tcp://docker:2375
+    DOCKER_DRIVER: overlay2
+  before_script:
+  - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN registry.gitlab.com
+  script:
+  - docker build -t registry.gitlab.com/melcma/tasty.app/client -f Dockerfile .
+  - docker build -t registry.gitlab.com/melcma/tasty.app/api -f Dockerfile-api .
+  - docker push registry.gitlab.com/melcma/tasty/client
+  - docker push registry.gitlab.com/melcma/tasty/api
+
+deploy:
+  stage: deploy
+  image: alpine:3.8
+  before_script:
+  - apk --update add ansible openssh-client
+  - mkdir -p ~/.ssh
+  - echo "$SSH_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/digitalocean
+  - chmod 600 ~/.ssh/digitalocean
+  - eval "$(ssh-agent -s)"
+  - ssh-add ~/.ssh/digitalocean
+  script:
+  - cd provisioning
+  - ansible-playbook -i "$SSH_IP", provision.yml -u "$SSH_USER" --ssh-extra-args='-o StrictHostKeyChecking=no'
