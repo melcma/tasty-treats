@@ -1,0 +1,129 @@
+<html>
+
+<head>
+  <title>Tasty-treats</title>
+  <link rel="stylesheet" href="/milligram.min.css">
+  <link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+  <div class="container">
+
+    <div class="row">
+      
+      <div class="column">
+
+        <nav>
+          <a href="index">Contact</a>
+          <a href="emails">Emails</a>
+        </nav>
+
+      </div>
+
+    </div>
+
+    <div class="row">
+
+      <div class="column">
+  
+        <h1>Tasty Treats</h1>
+        <h2>Contact us</h2>
+
+        <form action="http://localhost:3000/api/email" method="POST" class="enquiry-form">
+
+          <label for="name">Name</label>
+          <input type="text" name="name" placeholder="John Smith" required>
+          
+          <label for="name">Email</label>
+          <input type="email" name="email" placeholder="john.smith@gmail.com" required>
+          
+          <label for="message">Comment</label>
+          <textarea name="message" placeholder="Hi John..."></textarea>
+          
+          <div class="float-right">
+            <label for="subscribe" class="label-inline">Subscribe to newsletter</label>
+            <input type="checkbox" name="subscribe" value="Yes">
+          </div>
+
+          <input type="text" name="surname" class="surname">
+          
+          <input class="button-primary" type="submit" value="Send">
+        
+        </form>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="popup popup--hidden">
+    <div class="popup__content">
+      <h2 class="status"></h2>
+      <p class="message"></p>
+    </div>
+  </div>
+
+</body>
+
+</html>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const form = document.querySelector('.enquiry-form');
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const formData = new FormData(form);
+
+      fetch('http://localhost:3000/api/email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+        },
+        body: new URLSearchParams(formData),
+      })
+      .then(res => {
+        if (!res.ok) { throw res; }
+          showSuccessMessage();
+          hidePopup();
+      })
+      .catch(err => {
+        Promise.resolve(err.json()).then(data => {
+          switch(data.code) {
+            case 'in-use': showErrorMessage(data.msg); break;
+            case 'name': showErrorMessage(data.msg); break;
+            case 'email': showErrorMessage(data.msg); break;
+            case 'bot': showErrorMessage(data.msg); break;
+            default: showErrorMessage('Unknown error');
+          }
+        });
+        hidePopup();
+      })
+    })
+
+    function showSuccessMessage() {
+      const popup = document.querySelector('.popup');
+      popup.querySelector('.status').innerHTML = 'Success!';
+      popup.querySelector('.message').innerHTML = 'Your message has been sent successfully. Thank you!';
+      popup.classList.remove('popup--hidden');
+    }
+
+    function showErrorMessage(msg) {
+      const popup = document.querySelector('.popup');
+      popup.querySelector('.status').innerHTML = 'Error!';
+      popup.querySelector('.message').innerHTML = msg;
+      popup.classList.remove('popup--hidden');
+    }
+
+    function hidePopup() {
+      const popup = document.querySelector('.popup');
+
+      setTimeout(() => {
+        popup.classList.add('popup--hidden');
+      }, 3000)
+    }
+  })
+</script>

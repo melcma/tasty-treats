@@ -1,0 +1,75 @@
+<html>
+
+<head>
+  <title>Tasty-treats</title>
+  <link rel="stylesheet" href="/milligram.min.css">
+  <link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+  <div class="container">
+
+    <div class="row">
+      
+      <div class="column">
+
+        <nav>
+          <a href="index">Contact</a>
+          <a href="emails">Emails</a>
+        </nav>
+
+      </div>
+
+    </div>
+
+    <div class="row">
+
+      <div class="column">
+  
+        <h1>Tasty Treats</h1>
+        <h2>Saved emails</h2>
+
+        <table class="emails-list">
+          <thead>
+            <th>Name</th>
+            <th>E-mail</th>
+            <th>Subscribed?</th>
+            <th>Message</th>
+          </thead>
+        </table>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</body>
+
+</html>
+
+<script>
+   document.addEventListener('DOMContentLoaded', () => {
+    const list = document.querySelector('.emails-list');
+
+    fetch('http://localhost:3000/api/customers')
+      .then(res => res.json())
+      .then(data => {
+        data
+        .filter(person => person[0]) // remove empty lines
+        .forEach(person => {
+          const row = document.createElement('TR');
+
+          person.forEach(value => {
+            const cell = document.createElement('TD');
+            const text = document.createTextNode(value);
+            cell.appendChild(text);
+            row.appendChild(cell);
+          })
+
+          list.appendChild(row);
+        });
+      })
+   })
+</script>

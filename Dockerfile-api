@@ -1,0 +1,10 @@
+FROM node:10-alpine
+
+COPY src/server/ /app
+COPY package*.json /app
+
+WORKDIR /app
+
+RUN npm install
+
+CMD ["npm", "run", "start"]
