@@ -4,7 +4,6 @@ function isProduction() {
     return process.env.NODE_ENV === "production";
 }
 
-
 function emailExists(data, email) {
     return data.includes(email);
 }
@@ -43,4 +42,5 @@ module.exports = {
     saveEmailToFile,
     formValuesToCsv,
     csvToJson,
+    isProduction,
 }

@@ -3,11 +3,10 @@ const path = require('path');
 const app = express();
 const bodyParser = require('body-parser');
 const { validationResult } = require('express-validator');
+
 const { isProduction } = require('./helpers');
 
-const root = isProduction ? './' : '../';
-
-const emailsPath = (`${path.resolve(__dirname, `${root}` + 'data/emails.csv')}`);
+const emailsPath = isProduction ? './data/emails.csv' : (`${path.resolve(__dirname, '../data/emails.csv')}`);
 const { emailExists, loadEmailsFromFile, saveEmailToFile, formValuesToCsv, csvToJson } = require('./helpers');
 const { emailValidator, allowedDomains } = require('./config');
 
