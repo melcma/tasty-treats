@@ -7,7 +7,7 @@ function emailExists(data, email) {
 function loadEmailsFromFile(file) {
     return new Promise((resolve, reject) => {
         fs.readFile(file, (err, data) => {
-            if (err) reject(err);
+            if (err) return reject(err);
 
             resolve(data.toString());
         })

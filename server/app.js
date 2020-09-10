@@ -17,8 +17,15 @@ app.get('/api/customers', (req, res) => {
         res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
     }
     
-    loadEmailsFromFile(emailsPath).then((data) => {
+    loadEmailsFromFile(emailsPath)
+    .then(data => {
         res.send(csvToJson(data));
+     })
+     .catch(err => {
+         res.status(400).json({
+             code: 'no-customers',
+             msg: 'Customer list is empty'
+         })
      })
 });
 
@@ -53,26 +60,42 @@ app.post('/api/email', emailValidator, (req, res) => {
         });
     }
 
-    loadEmailsFromFile(emailsPath).then(data => {
-        if (emailExists(data, email)) {
-            return res.status(400).json({
-                code: 'in-use',
-                msg: 'Email is already in our database'
+    function getEmails() {
+        loadEmailsFromFile(emailsPath)
+        .then(data => {
+            if (emailExists(data, email)) {
+                return res.status(400).json({
+                    code: 'in-use',
+                    msg: 'Email is already in our database'
+                });
+            }
+    
+            saveEmailToFile(formValuesToCsv(emailData), emailsPath);
+    
+            return res.json({
+                code: 'ok',
+                msg: 'Email has been saved'
             });
-        }
-
-        saveEmailToFile(formValuesToCsv(emailData), emailsPath);
-
-        return res.json({
-            code: 'ok',
-            msg: 'Email has been saved'
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(400).json({
+                code: 'unknown',
+                msg: 'Unknown error occurred'
+            });
         });
+    }
+
+    // create file if non existing
+    loadEmailsFromFile(emailsPath)
+    .then(() => {
+        getEmails();
     })
     .catch(err => {
-        res.status(400).json({
-            code: 'unknown',
-            msg: 'Unknown error occurred'
-        });
+        if (err.code === 'ENOENT') {
+            saveEmailToFile('', emailsPath);
+            getEmails();
+        }
     });
 })
 
