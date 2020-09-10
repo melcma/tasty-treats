@@ -1,6 +1,7 @@
 FROM node:10-alpine
 
 COPY server/ /app
+COPY data/ /app/data
 COPY package*.json /app
 
 WORKDIR /app
