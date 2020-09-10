@@ -30,7 +30,7 @@
         <h1>Tasty Treats</h1>
         <h2>Contact us</h2>
 
-        <form action="http://www.adrianpiwowarczyk.com:8013/api/email" method="POST" class="enquiry-form">
+        <form action="http://www.adrianpiwowarczyk.com:8014/api/email" method="POST" class="enquiry-form">
 
           <label for="name">Name</label>
           <input type="text" name="name" placeholder="John Smith" required>
@@ -78,7 +78,7 @@
 
       const formData = new FormData(form);
 
-      fetch('http://www.adrianpiwowarczyk.com:8013/api/email', {
+      fetch('http://www.adrianpiwowarczyk.com:8014/api/email', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
