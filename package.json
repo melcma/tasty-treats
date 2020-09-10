@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./www",
+    "start": "PORT=8014 node ./www",
     "dev": "node ./server/www"
   },
   "dependencies": {
