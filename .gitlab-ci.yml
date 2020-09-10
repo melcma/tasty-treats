@@ -23,10 +23,10 @@ release:
   before_script:
   - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN registry.gitlab.com
   script:
-  - docker build -t registry.gitlab.com/melcma/tasty/client -f Dockerfile .
-  - docker build -t registry.gitlab.com/melcma/tasty/api -f Dockerfile-api .
-  - docker push registry.gitlab.com/melcma/tasty/client
-  - docker push registry.gitlab.com/melcma/tasty/api
+  - docker build -t registry.gitlab.com/melcma/tasty-treats/client -f Dockerfile .
+  - docker build -t registry.gitlab.com/melcma/tasty-treats/api -f Dockerfile-api .
+  - docker push registry.gitlab.com/melcma/tasty-treats/client
+  - docker push registry.gitlab.com/melcma/tasty-treats/api
 
 deploy:
   stage: deploy
