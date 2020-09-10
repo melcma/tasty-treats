@@ -1,8 +1,8 @@
 ---
 applications:
   subscroller.app:
-    image: registry.gitlab.com/melcma/tasty/client:latest
+    image: registry.gitlab.com/melcma/tasty-treats/client:latest
     port: 8012
   proxy.subscroller.app:
-    image: registry.gitlab.com/melcma/tasty/api:latest
+    image: registry.gitlab.com/melcma/tasty-treats/api:latest
     port: 8013
