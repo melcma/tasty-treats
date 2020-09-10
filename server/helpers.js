@@ -1,5 +1,10 @@
 const fs = require('fs');
 
+function isProduction() {
+    return process.env.NODE_ENV === "production";
+}
+
+
 function emailExists(data, email) {
     return data.includes(email);
 }
