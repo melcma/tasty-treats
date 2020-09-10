@@ -10,3 +10,13 @@ Frontend is static html files and backend is written in Node.js and Express serv
 Client and Server are in separated docker containers  
 
 run "yarn dev" or "npm run dev" locally
+
+App:  
+http://www.adrianpiwowarczyk.com:8013/index  
+http://www.adrianpiwowarczyk.com:8013/emails  
+
+API:  
+http://www.adrianpiwowarczyk.com:8014/api/customers (GET)  
+http://www.adrianpiwowarczyk.com:8014/api/email (POST)  
+
+Node.js, Express, express-validator, Docker, Ansible, HTML, CSS, JavaScript
