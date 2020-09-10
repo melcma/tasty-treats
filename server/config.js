@@ -15,6 +15,9 @@ const emailValidator = [
 const allowedDomains = [
     'http://localhost:5000',
     'adrianpiwowarczyk.com',
+    'http://www.adrianpiwowarczyk.com',
+    'http://www.adrianpiwowarczyk.com:8012',
+    'http://www.adrianpiwowarczyk.com:8013'
 ];
 
 module.exports = {
