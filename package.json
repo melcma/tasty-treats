@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./server/www"
+    "start": "node ./www",
+    "dev": "node ./server/www"
   },
   "dependencies": {
     "debug": "~2.6.9",
