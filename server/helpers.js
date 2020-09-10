@@ -12,10 +12,19 @@ function loadEmailsFromFile(file) {
     return new Promise((resolve, reject) => {
         fs.readFile(file, (err, data) => {
             if (err) return reject(err);
+            
+            const sortedData = reverseEntires(data.toString());
 
-            resolve(data.toString());
+            resolve(sortedData);
         })
     })
+}
+
+function reverseEntires(data) {
+  return data.split('\n')
+  .filter(data => data)
+  .reverse()
+  .join('\n');
 }
 
 function saveEmailToFile(data, file) {
